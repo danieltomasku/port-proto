@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+
+<html class=''>
+<head><meta charset='UTF-8'><meta name="robots" content="noindex">
+<script id="vertexShader" type="x-shader/x-vertex">
+  varying vec2 vUv; 
+  void main() {
+    vUv = uv;
+
+    vec4 mvPosition = modelViewMatrix * vec4(position, 1.0 );
+    gl_Position = projectionMatrix * mvPosition;
+  }
+
+</script>
+<script id="fragmentShader" type="x-shader/x-fragment">
+
+    uniform vec2 iResolution;
+    uniform float iGlobalTime;
+
+    varying vec2 vUv; 
+
+    void main(void)
+    {
+    float time=iGlobalTime*0.6;
+    vec2 uv = (-1.0 + 2.0 *vUv)* 2.0;
+
+    vec2 uv0=uv;
+    float i0=1.4;
+    float i1=1.9;
+    float i2=1.4;
+    float i4=0.6;
+    for(int s=0;s<20;s++) {
+            vec2 r;
+            r=vec2(cos(uv.y*i0-i4+time/i1),sin(uv.x*i0-i4+time/i1))/i2;
+            r+=vec2(-r.y,r.x)*0.3;
+            uv.xy+=r-0.5;
+            i0*=1.93;
+        i1*=1.15;
+        i2*=1.7;
+            i4+=0.65+0.1*time*i1;
+            }
+            float r=sin(uv.x-time)*0.4+0.6;
+            float b=sin(uv.y+time)*0.4+0.6;
+            float g=0.0;
+  
+
+     gl_FragColor = vec4(r,g,b,1);
+    }
+
+</script>
+
+<style class="cp-pen-styles">
+
+@font-face {
+  font-family: 'Calligraphy';
+  src: url('Calligraphy.woff');
+}
+
+
+
+body {
+   margin:0;
+   padding:0;
+   overflow:auto;
+}
+
+.name {
+  font-family: Nimbus Sans Extd;
+  font-weight: bold;
+  color: rbga(3,0,0,0);
+   -webkit-text-fill-color:transparent;
+   -webkit-text-stroke-width: 1px;
+   -webkit-text-stroke-color: white;
+  font-size: 60px;
+  z-index: 1000;
+  width: 100vw;
+  top: 0px;
+  display: block;
+  text-align: center;
+  position: fixed;
+}
+
+.background {
+  width: 80vmin;
+  height: calc(80vmin / 14 * 9);
+  margin: 27vh auto;
+  box-shadow: 0 10px 75px -16px #000;
+}
+.background img.lazy {
+  height: 100%;
+  width: 100%;
+  opacity: 0;
+  transition: 1s;
+}
+.background img.lazy.loaded {
+  opacity: 1;
+}
+
+.content-wrapper {
+  overflow: scroll;
+  position: relative;
+}
+
+canvas {
+  position: fixed;
+}
+
+.three-d {
+  mix-blend-mode: darken;
+  margin: 60px 0px;
+}
+
+.three-d img {
+    position: relative;
+    margin: 0 auto;
+    display: block;
+}
+
+.info {
+    position: fixed;
+    color: white;
+    font-size: 70px;
+    bottom: 50px;
+    right: 50px;
+    font-family: Calligraphy;
+    border-radius: 5000px;
+    padding: 15px 55px;
+    border: 1px solid white;
+    z-index: 6000;
+    transition: all .6s ease-in-out;
+    cursor: pointer;
+}
+
+.info:hover {
+    background-color: white;
+    color: rgb(41, 41, 41);
+}
+
+
+
+
+</style></head><body>
+
+
+
+<div id="container">
+
+</div>
+
+<div class="name">DKU</div>
+
+<div class="info">
+i
+</div>
+
+<div class="content-wrapper">
+
+<div class="three-d">
+<img src="http://threedscans.com/wp-content/uploads/2016/02/Francois-Willeme1.gif">
+</div>
+
+<div data-image="WpdHCafYSWjaguKSxPOjdbT1a/H0MfAAAAEElEQVQI12NgYGRiYGZhBQAALgAQ2bAGGQ" class="background"><img src="https://rm-content.s3.amazonaws.com/57228069eb4417ae46a7d2e1/619803/upload-41fd4070-8d13-11e6-89a1-2fddc4371d6f.png" class="lazy"/></div>
+<div data-image="WeXlGlt8u7wc40QUtIYHNRR0wrG7TZAAAAEElEQVQI12NgYGRiYGZhBQAALgAQ2bAGGQ" class="background"><img src="https://rm-content.s3.amazonaws.com/57228069eb4417ae46a7d2e1/619803/upload-20d42d50-8d13-11e6-89a1-2fddc4371d6f.jpg" class="lazy"/></div>
+<div data-image="X2xZnCkYJ4YXKqj3xTUVpKT15VjEr+AAAAEElEQVQI12NgYGRiYGZhBQAALgAQ2bAGGQ" class="background"><img src="https://rm-content.s3.amazonaws.com/57228069eb4417ae46a7d2e1/619803/upload-b1bf9be0-8d0b-11e6-8c51-694460b88e11.jpg" class="lazy"/></div>
+
+<div data-image="X2xZnCkYJ4YXKqj3xTUVpKT15VjEr+AAAAEElEQVQI12NgYGRiYGZhBQAALgAQ2bAGGQ" class="background"><img src="https://rm-content.s3.amazonaws.com/57228069eb4417ae46a7d2e1/619803/upload-4f392920-8d13-11e6-89a1-2fddc4371d6f.png" class="lazy"/></div>
+
+
+
+
+</div>
+
+
+<script src='https://code.jquery.com/jquery-2.2.4.min.js'></script>
+<script>$('.background').each(function () {
+    var $b64 = $(this).data('image');
+    $(this).css('background', 'url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAMAAAACCAMAAACqqpYoAAAAElBMVE' + $b64 + 'AAAABJRU5ErkJggg==) center/cover no-repeat');
+});
+$('.lazy').each(function () {
+    var $object = $(this), $parent = $object.parent();
+    $object.on('load', function () {
+        $object.addClass('loaded');
+        $parent.removeAttr('data-image');
+        setTimeout(function () {
+            $parent.removeAttr('style');
+        }, 2000);
+    });
+});
+</script>
+
+
+
+
+
+
+
+<script src='//threejs.org/build/three.min.js'></script>
+<script>var container;
+var camera, scene, renderer;
+var uniforms;
+var startTime;
+
+init();
+animate();
+
+function init() {
+  container = document.getElementById( 'container' );
+  startTime = Date.now();
+  camera = new THREE.Camera();
+  camera.position.z = 1;
+  scene = new THREE.Scene();
+  var geometry = new THREE.PlaneBufferGeometry(2, 2 );
+  uniforms = {
+    iGlobalTime: { type: "f", value: 1.0 },
+    iResolution: { type: "v1", value: new THREE.Vector2(), }
+  };
+
+
+  var material = new THREE.ShaderMaterial( {
+    uniforms: uniforms,
+    vertexShader: document.getElementById( 'vertexShader' ).textContent,
+    fragmentShader: document.getElementById( 'fragmentShader' ).textContent
+  });
+
+  var mesh = new THREE.Mesh( geometry, material );
+  scene.add( mesh );
+  renderer = new THREE.WebGLRenderer();
+  container.appendChild( renderer.domElement );
+  onWindowResize();
+  window.addEventListener( 'resize', onWindowResize, false );
+}
+
+function onWindowResize( event ) {
+  uniforms.iResolution.value.x = window.innerWidth;
+  uniforms.iResolution.value.y = window.innerHeight;
+  renderer.setSize( window.innerWidth, window.innerHeight );
+}
+function animate() {
+  requestAnimationFrame( animate );
+  render();
+}
+
+function render() {
+  var currentTime = Date.now();
+  uniforms.iGlobalTime.value = (currentTime - startTime) * 0.001;
+  renderer.render( scene, camera );
+}
+
+
+</script>
+</body></html>
+
+
+
+
+
+
